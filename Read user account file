@@ -1,0 +1,153 @@
+void login()  //------- Read  user account file, user name and password from binary file named "userAcc".
+{
+	ifstream inFile;
+	account acc;
+	int i=0;
+	bool found = false;
+	char userName[20], userPass[10];
+	cout << "\n\n\tEnter user account name: ";
+	cin.getline(userName, 20);
+	cout << "\n\tEnter your password: ";
+	cin.getline(userPass, 10);
+	inFile.open("userAcc.dat", ios::binary);
+	while(!inFile.eof() && found == false)
+	{
+		inFile.read(reinterpret_cast<char *>(&acc), sizeof(account));
+		if(strcmp(acc.retAccName(), userName) ==0 && strcmp(acc.retAccPass(), userPass) == 0) // checkes if the entered
+		{                                                                                     //name and password is correct.
+		 cout << "\n\n\n\n\t\tYou Loged in  successfully\n! \t\t\tWELCOME\n\t\tLoading User menu";// if it is correct the
+		  Sleep(600); cout << "."; Sleep(600);cout << ".";Sleep(600); cout << ".";                // user login succesfully.
+          found = true;
+          system("cls");
+           userMenu();
+		 }
+	}
+ inFile.close();
+ if(!found)
+ cout << "\n\n\t\tWrong password or Username!  Please try again!\n\n";
+}
+
+void adminMenu() // definition of admin menu
+{
+	system("color 2f");  // This command is used to change the console color.
+	system("cls"); //--------------This command is used to clear screan
+	char prodCat[20];
+	char *p;
+	char id[10];
+	p = new char; // -- dynamically allocated memory.
+	 char deId[10];
+	do{
+         system("type adminMenu.txt"); //----- Read a text file containing admin menu option.
+	        cout << "\n\n\t\tEnter your choice: ";
+	        v:
+	        *p = getch();
+	        switch(*p)
+	        {
+	        	case '1':
+	        		insertProd(); // -- function call to enable the admin to enter product information.
+	        		break;
+	        	case '2':
+	        		cout << "\n\t\tEnter product id to edit: ";
+					 cin >> id;
+	        		modify(id);
+	        		break;
+	        	case '3':
+	        		system("cls");
+	        		int ch;
+	        		cout << "\n\t\tDelete:\n\t\t1. One at a time\n\t\t2. delete all\n\n\t\tEnter your choice: ";// delete option.
+	        		cin >>ch;
+	        		if(ch==1){
+	        		cout << "\n\t\tEnter product ID to delete: ";
+	        		cin >> deId;
+	        		deleteProduct(deId);}
+	        	   else{
+	        	   	cout << "\n\n\t\tDeleting all product";
+	        	   	Sleep(600); cout << "."; Sleep(600);cout << ".";Sleep(600); cout << ".";
+	        	   remove ("products.dat");
+	        	   cout << "\n\t\tAll product deleted!\n";
+	                }
+	        		break;
+	        	case '4':
+	        		display();
+	        		break;
+	        	case '5':
+	        		search();
+	        		break;
+	        	case '6':
+	        		sort();
+	        		break;
+	        	case '7':
+	        		{
+	        		  cout << "\n\t\tWich category do you want to view?  ";
+		        		cin.getline(prodCat,20);
+		        		int len = strlen(prodCat);
+		        		for(int i=0; i<len; ++i){
+		        			prodCat[i] = toupper(prodCat[i]);
+		        			}
+		        		viewCategory(prodCat);
+	        		}
+	        		break;
+	        	case '8':
+	        		viewSold();
+	        		break;
+	        	case '9':
+	        		main();
+	        		break;
+	        	default :
+	        		cout << "\a"; goto v;
+	        }
+	    system("pause");
+	    system("cls");
+     }while(*p!='9');
+    delete p;
+}
+void userMenu()   //  --------- Definition of user menu function.
+{
+	//system("color a9");
+	system("cls");
+	char prodCat[20];
+	char *p;
+	char buyId[10];
+       p = new char;
+	do{
+		system("type userMenu.txt");
+	 cout << "\n\n\t\t\tEnter your choice: ";
+		        n:
+		         *p = getch();
+		        switch(*p)
+		        {
+		        	case '1':
+		        		display();
+		        		break;
+		        	case '2':
+		        		sort();
+		        		break;
+		        	case '3':
+		        		search();
+		        		break;
+		        	case '4':
+		        		cout << "\n\n\t\tEnter ID of the product you want to buy: ";
+		        		cin >> buyId;
+		        		buyProd(buyId);
+		        		break;
+		        	case '5':
+		        		{
+		        			cout << "\n\t\tWhich category do you want to view?  ";
+		        			cin.getline(prodCat,20);
+		        			int len = strlen(prodCat);
+		        			for(int i=0; i<len; ++i){
+		        				prodCat[i] = toupper(prodCat[i]);
+		        			}
+		        		 viewCategory(prodCat);
+		        		}
+		        		break;
+		        	case '6':
+		        		main();
+		        		break;
+		        	default: cout << "\a"; goto n;
+		        }
+		    system("pause");
+		    system("cls");
+	}while(*p!='6');
+ delete p;
+}
