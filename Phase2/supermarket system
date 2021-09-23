@@ -1,0 +1,290 @@
+include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <fstream>
+#include <iomanip>
+#include <conio.h>
+#include <windows.h>
+//-------End of header files included in this project.
+using namespace std;
+//---class declaration
+class product {
+	private:        // ----------- private  member variables.
+		char prod_category[50];
+		char prod_name[50];
+		char prod_id[10];
+		int prod_quantity;
+		char prod_measure[20];
+		float prod_price;
+		float revenue;
+		int soldQuantity;
+	public:      //------------- Public member function.
+		void create_product();
+		void edit();
+		void view() const;
+		char *retId();
+	        char *retName();
+		float retPrice();
+		int leftQuantity(int);
+		int retQuantity();
+		char *retProd_category();
+		int setSold(int);
+		float setRevenue(float);
+                int retSold();
+		float retRevenue();
+		//template <typename T>
+};//----------End of class.
+
+//-------- Struct for user account.
+struct account{
+       //--------- Member variable of account. by default the are public.
+	char accName[20];
+	char accPassword[10];
+	void createAcc();
+	char *retAccName();
+	char *retAccPass();
+		};  //--- end struct
+
+//-------- Definition of account member function.
+void account::createAcc() // ----- A function to create user accout.
+{
+	cout << "\n\n\tCREATE YOUR USER ACCOUNT: \n\n";
+	cout << "\tEnter user Name: ";
+	cin.getline(accName, 20);
+	acc:
+	cout << "\n\tEnter Your password (6-10 characters): ";
+	cin.getline(accPassword, 20);
+	int len = strlen(accPassword);
+	if(len < 6 || len>10){
+	cout << "\n\n\t Password should be 6-10 character. Please enter again! \n";
+	goto acc;}
+	else
+	cout << "\n\n\t Your account created successfully!\n\tNow you can log in with your account\n";
+	Sleep(1000);
+}
+char *account::retAccName()// a function to return user account name at the time of login.
+{
+	return accName;
+}
+char *account::retAccPass()// ---- A function to return user account password at the time of  login.
+{
+ 	return accPassword;
+}
+//  ends of  account member function definition.
+
+//***********************************************************************
+//   -- Product member function definition
+//************************************************************************
+void product::create_product()  // A function to  take product information.
+{
+	system("cls");
+	cout << "\n\tEnter product catagory: ";
+	cin.ignore();
+	cin.getline(prod_category, 50); //------- Take a product category.
+	int c = strlen(prod_category);
+	for(int f=0; f<c; ++f)
+	prod_category[f] = toupper(prod_category[f]); // -------- Changes product category to upper case letter.
+	cout << "\tEnter product name: ";
+	cin.getline(prod_name, 50);
+	int x = strlen(prod_name);
+	for(int i=0; i<x; i++)
+	prod_name[i] = toupper(prod_name[i]);
+	cout << "\tEnter product ID: ";
+	cin >> prod_id;
+	cout << "\tEnter product quantity: ";
+	cin >> prod_quantity;
+	cout << "\tEnter the unit of measurement: ";
+	cin.ignore();
+	cin.getline(prod_measure, 20);
+	int n = strlen(prod_measure);
+	for(int i=0; i<n; i++)
+	prod_measure[i] = toupper(prod_measure[i]);
+	cout << "\tEnter product price per unit: ";
+	cin >> prod_price;
+}
+void product::edit() //---- A function to update/edit a specific product.
+{
+	system("cls");
+	cout << "\n\tEnter new product category: ";
+	cin.ignore();
+	cin.getline(prod_category, 50);
+	int c = strlen(prod_category);
+	for(int i=0; i<c; ++i)
+	prod_category[i] = toupper(prod_category[i]); // ---  Changes product category to upper case letter.
+	cout << "\tEnter new product name: ";
+	cin.getline(prod_name, 50);
+	int x = strlen(prod_name);
+	for(int i=0; i<x; i++)
+	prod_name[i] = toupper(prod_name[i]);
+	cout << "\tEnter new product id: ";
+	cin >> prod_id;
+	cout << "\tEnter new product quantity: ";
+	cin >> prod_quantity;
+	cout << "\tEnter new unit of measurement: ";
+	cin.ignore();
+	cin.getline(prod_measure, 20);
+	int n = strlen(prod_measure);
+	for(int i=0; i<n; i++)
+	prod_measure[i] = toupper(prod_measure[i]);
+	cout << "\tEnter new product price per unit: ";
+	cin >> prod_price;
+	cout << "\n\t Product info updated...\n";
+}
+void product::view() const // A function to display a product information.
+{
+cout <<"\t|"<< setw(10)<< prod_category<<setw(18)<< prod_name << setw(14) << prod_id << setw(14)<<
+  prod_quantity << setw(14) <<prod_measure << setw(14)  <<prod_price  <<endl;
+  cout <<"\t"<<setw(8)<<"|---------------------------------------------------------------------------------------------|" << endl;
+}
+
+int product::setSold(int q) // ----- A function to set amount of product sold.
+{
+	soldQuantity = q;
+}
+
+float product::setRevenue(float sellP)// ---- A function to set revenue when product is purchased.
+{
+	revenue = sellP;
+}
+int product::retSold() // ------ A function to return amount of product sold.
+{
+	return soldQuantity;
+}
+float product::retRevenue() // --- A function to return revenue of a product sold.
+{
+	return revenue;
+}
+char *product::retProd_category() // -- A function to return Product category.
+{
+	return prod_category;
+}
+int product::retQuantity() // --- A function to return product quantity.
+{
+	return prod_quantity;
+}
+int product::leftQuantity(int x)// --- A function to update product quantity after some are sold.
+{
+	prod_quantity -= x;
+}
+float product::retPrice()  // -------- A function to return product price.
+{
+	return prod_price;
+}
+char *product::retId() // --- A function to return product id  at the time of product editing, searching, sorting, deleting, and buying.
+{
+	return prod_id;
+}
+char *product::retName() // --- A function to return a product name during search by name and sort by name
+{
+	return prod_name;
+}
+//  --- END  OF  PRODUCT MEMBER FUNCTION DEFINITION.
+// ********************************************************
+
+// ------ function prototypes.
+void sortingName(product [], int , char);  // - A function to sort the product by Product name.
+void insertProd();  // ------------------------ A function to write product information.
+void soldProd(product); // -------------------- A function to write a sold product on separate file.
+void display();  // --------------------------- A function to display product information
+void sortingId(product [], int, char);  //----- A function to sort product by id
+void adminMenu();  // ------------------------- A function to display option in admin menu
+void searchByname(char []);  // --------------- A function to search product by name.
+void userMenu(); // --------------------------- A function to display option in user menu.
+void modify(char []); //----------------------- A function to edit specific product.
+void search(); // ----------------------------- A function to display search option.
+// template <typename T>
+int searchByid(char []); // ------------------- A function to search product by id.
+void deleteProduct(char []); //---------------- A functoIn to delete a particular product.
+void buyProd(char []); // --------------------- A function to allow the user buy product.
+void bill(); // ------------------------------- A function to display a receipt for the user when the user buy product.
+void viewSold(); // --------------------------- A function to allow admin to view sold product.
+void sort(); // ------------------------------- A function to display sort option
+void sortByname(); // ------------------------- A function to read file to sort by name and then write sorted file
+void sortByid(); // --------------------------- A function to read file to sort by id and then write sorted file.
+void viewCategory(char []); // ---------------- A functoin to read and display product with the same category.
+void dispFormat(); // ------------------------- A function to display the format of display during ever display.
+void login(); // ------------------------------ A function to read user account file, Name and password and enable the user to login
+
+/************************************************
+    MIAN FUNCTION OF THE PROGRAM.
+ **********************************************/
+int main()
+{
+	cout<<"this smart program is written by AASTU Software Engineering  students and "<<endl;
+	cout<<"the aim of this program is to help online super market and  product management"<<endl;
+	cout<<"in this program we have tried to inserting,deleting,sorting,viewing etc by the owner and buyig,viewing searching etc by the user....."<<endl;
+	cout<<"generally to understand the purpose of the project message the source code in detail before running it.....";
+	system("cls");
+	system("color 5f");
+	account acc;
+	char adminpass[8] = {"admin12"}; //---------- Administrator password.
+	char a, pass[20];
+	fstream accFile;
+	accFile.open("userAcc.dat", ios::binary|ios::in |ios::out|ios::app);//---- opening user account file
+	if(!accFile)
+	{
+		cout << "Error! \n";
+		exit(1);
+	}
+	else
+	{
+		do{
+		system("type menu.txt"); // ---------------this command reads main menu from text file.
+		a:
+    	cout << "\n\t\t\t\tEnter your choice: ";
+
+		a = getch(); // ------- Wait for input from the user.
+		switch(a)
+		{
+			case '1':
+				acc.createAcc(); // -- function call to enable the user create account.
+				accFile.write(reinterpret_cast<char *>(&acc), sizeof(account)); // -- writes user account informtion on
+				accFile.close();                                                // a file named "userAcc".
+				main();
+				break;
+			case '2':
+				login();
+				break;
+				f:
+
+			case '3':{
+				   cout << "\n\t\tEnter admin password: ";
+				   cin >> pass;
+					if (strcmp(adminpass, pass)==0){
+						cout << "\n\n\t\tLoading Admin Menu";
+						Sleep(600); cout << "."; Sleep(400);cout << ".";Sleep(200); cout << ".";
+						adminMenu();
+					}
+
+					else cout << "\n\t\tWrong password!\n";
+
+					goto f;
+						system ("cls");
+
+				    break;
+
+			    }
+				break;
+			case '4':
+				system("cls");
+				system("type about.txt"); // --- This command read text file named "about" which contain group members.
+				break;
+			case '5':
+				break;
+			default :
+			{
+			cout << "\a";
+			system("cls");
+			cout<<"\n \t\t\tplease! choose an appropriate numbers"<<endl;
+
+			goto a;
+			} //* -- If the option entered is different from the five cases (1-5)
+		}
+		                                    //default option produce sound and goes to label 'a'.
+		                                     // to enable the user enter appropriate choice again.
+        system("pause");
+
+        system("cls");
+	}while(a !='5');
+	}
+}
